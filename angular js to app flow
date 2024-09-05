@@ -1,0 +1,102 @@
+Step 2: Set Up Your Environment
+1. Install Node.js and npm
+Since we are developing AngularJS apps, it's essential to have Node.js installed. It provides npm for package management and other tools.
+
+Skip this step if Node.js and npm are already installed.
+2. Install http-server
+We will use http-server to serve our AngularJS application:
+
+bash
+Copy code
+npm install -g http-server
+3. Set Up Project Directory
+Create a new folder for your first project.
+bash
+Copy code
+mkdir angularjs-todo-app
+cd angularjs-todo-app
+4. Create Basic Files
+Inside the project folder, create the following files:
+
+index.html
+app.js
+Step 3: Build the Todo List App
+1. Create the index.html file
+This will be the main page of your app. It will include AngularJS and link to the app.js file.
+
+html
+Copy code
+<!DOCTYPE html>
+<html lang="en" ng-app="todoApp">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo List App</title>
+</head>
+<body ng-controller="TodoController">
+
+    <h1>My Todo List</h1>
+
+    <form ng-submit="addTodo()">
+        <input type="text" ng-model="newTodo" placeholder="Add new todo" required>
+        <button type="submit">Add Todo</button>
+    </form>
+
+    <ul>
+        <li ng-repeat="todo in todos">
+            {{ todo.text }}
+            <button ng-click="removeTodo($index)">Remove</button>
+        </li>
+    </ul>
+
+    <!-- Include AngularJS from CDN -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+
+    <!-- Link to your app.js file -->
+    <script src="app.js"></script>
+
+</body>
+</html>
+2. Create the app.js file
+This file will define your AngularJS app, controller, and scope.
+
+javascript
+Copy code
+// Create an AngularJS module named "todoApp"
+var app = angular.module('todoApp', []);
+
+// Define a controller named "TodoController"
+app.controller('TodoController', function($scope) {
+    // Initialize the todo list
+    $scope.todos = [
+        { text: 'Learn AngularJS' },
+        { text: 'Build a Todo App' }
+    ];
+
+    // Add a new todo
+    $scope.addTodo = function() {
+        if ($scope.newTodo) {
+            $scope.todos.push({ text: $scope.newTodo });
+            $scope.newTodo = ''; // Clear the input field
+        }
+    };
+
+    // Remove a todo by its index
+    $scope.removeTodo = function(index) {
+        $scope.todos.splice(index, 1);
+    };
+});
+Step 4: Run the Application
+In the terminal, navigate to your project folder.
+Start the http-server:
+bash
+Copy code
+http-server
+Open your browser and go to http://localhost:8080 (or the port mentioned by the terminal). You should see the Todo List app running!
+Step 5: Understanding What You Just Built
+ng-app: Defines the root element of the AngularJS application.
+ng-controller: Binds the controller TodoController to the view.
+ng-model: Creates a two-way data binding between the input field and the newTodo variable in the scope.
+ng-submit: Binds the form submission to the addTodo() function.
+ng-repeat: Loops through the todos array and displays each todo in a list.
+ng-click: Binds the button click to the removeTodo() function to remove a specific todo.
